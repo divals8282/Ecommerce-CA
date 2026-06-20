@@ -17,4 +17,9 @@ public class CardRepository {
     {
         return await _db.Cards.FindAsync(id);
     }
+
+    public async Task SaveChangesAsync()
+    {
+        await _db.SaveChangesAsync();
+    }
 }

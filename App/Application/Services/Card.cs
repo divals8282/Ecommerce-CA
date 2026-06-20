@@ -1,6 +1,6 @@
 using App.Domain.Entities;
 
-namespace App.Infrastructure.Services;
+namespace App.Application.Services;
 
 public class CardService {
 

@@ -16,4 +16,9 @@ public class UserRepository {
     {
         return await _db.Users.FindAsync(id);
     }
+
+    public async Task SaveChangesAsync()
+    {
+        await _db.SaveChangesAsync();
+    }
 }

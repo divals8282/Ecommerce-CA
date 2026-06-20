@@ -17,4 +17,9 @@ public class CheckoutRepository {
     {
         return await _db.Checkouts.FindAsync(id);
     }
+
+    public async Task SaveChangesAsync()
+    {
+        await _db.SaveChangesAsync();
+    }
 }

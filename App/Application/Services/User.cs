@@ -1,7 +1,7 @@
 using App.Domain.Entities;
 using App.Domain.Enums;
 
-namespace App.Infrastructure.Services;
+namespace App.Application.Services;
 
 
 public class UserService {
