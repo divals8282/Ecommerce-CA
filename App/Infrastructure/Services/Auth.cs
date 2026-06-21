@@ -1,19 +1,22 @@
+using App.Application.Authentication.JWT;
 using App.Domain.Entities;
 using App.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Identity;
 
 namespace App.Infrastructure.Services;
 
-
 public class AuthService {
     private PasswordHasher<object> hasher = new PasswordHasher<object>();
     private readonly AuthRepository _repo;
+    private readonly JwtTokenGenerator _jwt;
+    
 
-    public AuthService(AuthRepository authRepository) {
+    public AuthService(AuthRepository authRepository, JwtTokenGenerator jwt) {
         _repo = authRepository;
+        _jwt = jwt;
     }
 
-    public async Task<bool> CheckPasswordValidity(UserEntity u, string cleanPassword) {
+    public async Task<bool> ComparePassword(UserEntity u, string cleanPassword) {
         var hashedPassword = hasher.HashPassword(new (), cleanPassword);
         var user = await _repo.GetByIdAsync(u.Id);
 
@@ -24,15 +27,16 @@ public class AuthService {
         return false;
     }
 
-    public async Task GenerateTokens(UserEntity user) {
-
-    }
-
-    public async Task CheckRefreshTokenValidity(string refreshToken) {
-
+    public string GenerateJWT(UserEntity user, ETokenType tokenType) {
+        return _jwt.GenerateToken(user, tokenType);
     }
 
     public async Task KillActualRefreshToken(UserEntity user) {
+        var u = await _repo.GetByIdAsync(user.Id);
 
+        if(u != null) {
+            u.RefreshToken = "";
+            await _repo.SaveChangesAsync();
+        }
     }
 }
