@@ -1,21 +1,78 @@
-# This application created for educational purposes
-### Application demonstrating "Clean Architecture" pattern in ecommerce platform
+# Application Overview
 
-## APP GOAL - Ecommerce platform which are providing basic functionality of internet shop.
+This application is created for educational purposes. It demonstrates the **Clean Architecture** pattern in an e-commerce platform.
 
-# Authentication - 'JWT' where 2 type of tokens 'Access' and 'Refresh' 
-## Access - life time 15min payload contains userId and role
-## Refresh - life time 1day payload empty, stored into relational database
+---
 
-# Role system - where 2 type of user 'content-manager' and 'client'
-## content-manager - able to integrate new products into system with (CRUD)
-## client - able to see list of products with pagination logic
+## Application Goal
 
-# Card Feature - where even not registered and loggedIn user able to add products in-to card which are working with uniq identities with cookies
-## Card attached to cookie which are should be provided into client(device) when client trying to add first product into card
-## Should be integrated CRON job which are removing all passive card's, which are not been modified in last 7 days
-## Also Card should be removed when user doing checkout, on that moment all card data should be archivated as history attached into "Client" user
+The goal of this application is to implement a basic e-commerce platform that provides core online shop functionality.
 
-# Checkout Feature - when card not empty and user(client) are loggedin, user able to do checkout which are archivating all card data and save it as history
-## content-manager based on user able to see all checkouts of users
-## client - able to see all own checkout history
+---
+
+# Authentication
+
+Authentication is implemented using **JWT (JSON Web Tokens)** with two types of tokens:
+
+## Access Token
+- Lifetime: 15 minutes  
+- Payload:
+  - `userId`
+  - `role`
+
+## Refresh Token
+- Lifetime: 1 day  
+- Payload: empty  
+- Stored in a relational database  
+
+---
+
+# Role System
+
+The system supports two types of users:
+
+## Content Manager
+- Manage products using full CRUD operations (Create, Read, Update, Delete)
+- Responsible for maintaining the product catalog
+
+## Client
+- View product listings
+- Use pagination for browsing products
+
+---
+
+# Cart Feature
+
+The cart feature works for both authenticated and unauthenticated users.
+
+## Key Behavior
+- Users can add products to the cart without registration or login
+- Each cart is identified by a unique ID stored in browser cookies
+- A cookie is created when the user adds the first product to the cart
+
+## Maintenance
+- A CRON job removes inactive carts
+- Carts not modified for 7 days are automatically deleted
+
+## Checkout Interaction
+- When checkout is completed, the cart is deleted
+- Cart data is archived as user purchase history
+
+---
+
+# Checkout Feature
+
+Checkout is available only when:
+- The cart is not empty
+- The user is logged in (client role)
+
+## Behavior
+- Cart data is saved as purchase history during checkout
+
+## Access Rules
+
+### Content Manager
+- Can view all user checkouts
+
+### Client
+- Can view only their own checkout history
