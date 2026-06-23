@@ -16,7 +16,7 @@ public class AuthService {
         _jwt = jwt;
     }
 
-    public async Task<bool> ComparePassword(UserEntity u, string cleanPassword) {
+    public async Task<bool> ComparePasswordAsync(UserEntity u, string cleanPassword) {
         var hashedPassword = hasher.HashPassword(new (), cleanPassword);
         var user = await _repo.GetByIdAsync(u.Id);
 
@@ -27,11 +27,24 @@ public class AuthService {
         return false;
     }
 
-    public string GenerateJWT(UserEntity user, ETokenType tokenType) {
+    public async Task<string> CreateTokenAsync(UserEntity user, ETokenType tokenType) {
+        if(tokenType == ETokenType.REFRESH) {
+            var u = await _repo.GetByIdAsync(user.Id);
+
+            if(u != null) {
+                u.RefreshToken = _jwt.GenerateToken(u, tokenType);
+
+                await _repo.SaveChangesAsync();
+
+
+                return u.RefreshToken;
+            }
+        }
+        
         return _jwt.GenerateToken(user, tokenType);
     }
 
-    public async Task KillActualRefreshToken(UserEntity user) {
+    public async Task KillActualRefreshTokenAsync(UserEntity user) {
         var u = await _repo.GetByIdAsync(user.Id);
 
         if(u != null) {

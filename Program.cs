@@ -1,5 +1,7 @@
+using App.Application.Services;
 using App.Infrastructure.Presistence;
 using App.Infrastructure.Repositories;
+using App.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,12 +13,18 @@ builder.Services.AddDbContext<AppDbContext>((options) => {
     options.UseSqlServer();
 });
 
+builder.Services.AddControllers();
+
 builder.Services.AddScoped<AuthRepository>();
 builder.Services.AddScoped<CardRepository>();
 builder.Services.AddScoped<CheckoutRepository>();
 builder.Services.AddScoped<UserRepository>();
 
+builder.Services.AddScoped<UserService>();
+
 var app = builder.Build();
+
+app.MapControllers();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
