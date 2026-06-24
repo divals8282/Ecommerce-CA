@@ -68,7 +68,7 @@ public class AuthController : ControllerBase {
     [HttpGet("/auth/get-user")]
     public async Task<IResult> GetUser()
     {
-
-        return Results.Json(new {  }, statusCode: 200);
+        var u = await _userService.GetCurrentUser();
+        return Results.Json(new { status = true, data = u }, statusCode: 200);
     }
 }

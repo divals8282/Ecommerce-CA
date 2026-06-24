@@ -95,4 +95,26 @@ public class UserService {
 
         return superSecret == realSuperSecret;
     }
+
+    public async Task<GetUserResponseDTO> GetCurrentUser() {
+        var jwtPayload = CurrentUserJWTPayload();
+
+        var u = await _userRepo.GetByIdAsync(jwtPayload.NameIdentifier);
+
+        if(u != null) {
+            return new GetUserResponseDTO() {
+                LastName = u.LastName,
+                Name = u.Name,
+                Role = u.Role,
+                UserName = u.UserName
+            };
+        }
+
+        return new GetUserResponseDTO() {
+                LastName = "",
+                Name = "",
+                Role = RoleEnum.CLIENT,
+                UserName = ""
+        };
+    }
 }
