@@ -2,7 +2,8 @@ using App.Domain.Enums;
 
 namespace App.Domain.Entities;
 
-public class UserEntity {
+public class UserEntity
+{
     public int Id { get; set; }
     required public string UserName;
     required public string Name;

@@ -5,9 +5,10 @@ using Microsoft.EntityFrameworkCore;
 namespace App.Infrastructure.Repositories;
 
 
-public class ProductRepository {
+public class ProductRepository
+{
 
-     private readonly AppDbContext _db;
+    private readonly AppDbContext _db;
 
     public ProductRepository(AppDbContext db)
     {
@@ -15,7 +16,8 @@ public class ProductRepository {
     }
 
 
-    public async Task<List<ProductEntity>> GetList(int offset, int limit) {
+    public async Task<List<ProductEntity>> GetList(int offset, int limit)
+    {
         return await _db.Products.Skip(offset).Take(limit).ToListAsync();
     }
 
@@ -24,15 +26,17 @@ public class ProductRepository {
         return await _db.Products.FindAsync(id);
     }
 
-    public async Task<bool> Add(ProductEntity product) {
+    public async Task<bool> Add(ProductEntity product)
+    {
         _db.Products.Add(product);
 
         await SaveChangesAsync();
 
         return true;
     }
-    
-    public async Task<bool> Delete(ProductEntity product) {
+
+    public async Task<bool> Delete(ProductEntity product)
+    {
         _db.Products.Remove(product);
 
         await SaveChangesAsync();

@@ -9,14 +9,16 @@ using App.Infrastructure.Authentication.JWT;
 
 namespace App.Application.Services;
 
-public class UserService {
+public class UserService
+{
     private readonly UserRepository _userRepo;
     private readonly AuthService _authService;
     private readonly IConfiguration _config;
 
     private readonly IHttpContextAccessor _httpContextAccessor;
 
-    private RJwtPayload SerializeJWTPayloadAuthUser() {
+    private RJwtPayload SerializeJWTPayloadAuthUser()
+    {
         var NameIdentifier = int.Parse(
             _httpContextAccessor.HttpContext!
                 .User
@@ -41,17 +43,20 @@ public class UserService {
         return new RJwtPayload(NameIdentifier, Name, AuthenticationMethod, Role == "ACCESS" ? ETokenType.ACCESS : ETokenType.REFRESH);
     }
 
-    public UserService(UserRepository userRepo, AuthService authService, IConfiguration config, IHttpContextAccessor httpContextAccessor) {
+    public UserService(UserRepository userRepo, AuthService authService, IConfiguration config, IHttpContextAccessor httpContextAccessor)
+    {
         _userRepo = userRepo;
         _authService = authService;
         _config = config;
         _httpContextAccessor = httpContextAccessor;
     }
 
-    public async Task<bool> SetNewRole(UserEntity user, RoleEnum role) {
+    public async Task<bool> SetNewRole(UserEntity user, RoleEnum role)
+    {
         var u = await _userRepo.GetByIdAsync(user.Id);
 
-        if(u != null) {
+        if (u != null)
+        {
             u.Role = role;
             await _userRepo.SaveChangesAsync();
 
@@ -61,42 +66,49 @@ public class UserService {
         return false;
     }
 
-    public async Task<bool> RegisterUser(UserEntity user) {
+    public async Task<bool> RegisterUser(UserEntity user)
+    {
         await _userRepo.AddAsync(user);
         await _userRepo.SaveChangesAsync();
 
         return true;
     }
 
-    public async Task<object> Login(SignInRequestDTO user) {
+    public async Task<object> Login(SignInRequestDTO user)
+    {
         var u = await _userRepo.GetByFieldName("username", user.UserName);
 
-        if(u == null) {
-            return new { status = false, authTokens = new {} };
+        if (u == null)
+        {
+            return new { status = false, authTokens = new { } };
         }
 
         var isPasswordValid = await _authService.ComparePasswordAsync(u, user.Password);
 
-        if(!isPasswordValid) {
-            return new {};
+        if (!isPasswordValid)
+        {
+            return new { };
         }
 
         var accessToken = await _authService.CreateTokenAsync(u, ETokenType.ACCESS);
         var refreshToken = await _authService.CreateTokenAsync(u, ETokenType.REFRESH);
 
-        return new {
+        return new
+        {
             accessToken,
             refreshToken
         };
     }
 
-    public bool CheckSuperSecretValidity(string superSecret) {
+    public bool CheckSuperSecretValidity(string superSecret)
+    {
         var realSuperSecret = _config["SUPER_SECRET"];
 
         return superSecret == realSuperSecret;
     }
 
-    public async Task<UserEntity?> GetCurrentUser() {
+    public async Task<UserEntity?> GetCurrentUser()
+    {
         var currentAuthUser = SerializeJWTPayloadAuthUser();
 
         var u = await _userRepo.GetByIdAsync(currentAuthUser.NameIdentifier);

@@ -7,10 +7,12 @@ using Microsoft.AspNetCore.Mvc;
 namespace App.WebApi.Controllers;
 
 [ApiController]
-public class CheckoutControler : ControllerBase {
+public class CheckoutControler : ControllerBase
+{
     private CheckoutService _checkoutService;
 
-    public CheckoutControler(CheckoutService checkoutService) {
+    public CheckoutControler(CheckoutService checkoutService)
+    {
         _checkoutService = checkoutService;
     }
 
@@ -20,7 +22,8 @@ public class CheckoutControler : ControllerBase {
     {
         var identityId = Request.Cookies["identity"];
 
-        if(identityId != null) {
+        if (identityId != null)
+        {
             var status = await _checkoutService.ArchivateCard(int.Parse(identityId));
 
             return Results.Json(new { status }, statusCode: 200);

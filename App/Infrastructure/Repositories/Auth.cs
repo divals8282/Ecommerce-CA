@@ -4,9 +4,10 @@ using App.Infrastructure.Presistence;
 namespace App.Infrastructure.Repositories;
 
 
-public class AuthRepository {
+public class AuthRepository
+{
 
-     private readonly AppDbContext _db;
+    private readonly AppDbContext _db;
 
     public AuthRepository(AppDbContext db)
     {
@@ -17,7 +18,7 @@ public class AuthRepository {
     {
         return await _db.Users.FindAsync(id);
     }
-    
+
     public async Task SaveChangesAsync()
     {
         await _db.SaveChangesAsync();

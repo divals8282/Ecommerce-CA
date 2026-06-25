@@ -4,26 +4,32 @@ using App.Infrastructure.Repositories;
 
 namespace App.Application.Services;
 
-public class ProductService {
+public class ProductService
+{
 
     private ProductRepository _productRepo;
 
-    public ProductService(ProductRepository productRepo) {
+    public ProductService(ProductRepository productRepo)
+    {
         _productRepo = productRepo;
     }
 
-    public async Task<List<ProductEntity>> List(int limit, int offset) {
+    public async Task<List<ProductEntity>> List(int limit, int offset)
+    {
 
 
         return await _productRepo.GetList(limit, offset);
     }
 
-    public async Task<ProductEntity?> GetProductById(int productId) {
+    public async Task<ProductEntity?> GetProductById(int productId)
+    {
         return await _productRepo.GetByIdAsync(productId);
     }
 
-    public async Task<ProductEntity?> Add(ProductRequestDTO product) {
-        var newProduct = new ProductEntity(){
+    public async Task<ProductEntity?> Add(ProductRequestDTO product)
+    {
+        var newProduct = new ProductEntity()
+        {
             Name = product.Name,
             price = product.price
         };
@@ -33,10 +39,12 @@ public class ProductService {
         return newProduct;
     }
 
-    public async Task<bool> Delete(int productId) {
+    public async Task<bool> Delete(int productId)
+    {
         var product = await _productRepo.GetByIdAsync(productId);
-        
-        if(product != null) {
+
+        if (product != null)
+        {
             await _productRepo.Delete(product);
 
             return true;
@@ -45,10 +53,12 @@ public class ProductService {
         return false;
     }
 
-    public async Task<bool> Edit(int productId, ProductRequestDTO productDTO) {
+    public async Task<bool> Edit(int productId, ProductRequestDTO productDTO)
+    {
         var product = await _productRepo.GetByIdAsync(productId);
 
-        if(product == null) {
+        if (product == null)
+        {
             return false;
         }
 

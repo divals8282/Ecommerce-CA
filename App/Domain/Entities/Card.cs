@@ -1,7 +1,8 @@
 namespace App.Domain.Entities;
 
 
-public class CardEntity {
+public class CardEntity
+{
     public int Id { get; set; }
     public IdentityEntity Identity = null!;
     public List<ProductEntity> Products = null!;

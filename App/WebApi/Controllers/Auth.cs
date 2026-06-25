@@ -8,7 +8,8 @@ using Microsoft.AspNetCore.Authorization;
 namespace App.WebApi.Controllers;
 
 [ApiController]
-public class AuthController : ControllerBase {
+public class AuthController : ControllerBase
+{
 
     private readonly UserService _userService;
 
@@ -17,10 +18,11 @@ public class AuthController : ControllerBase {
         _userService = userService;
     }
 
-    [HttpPost("/auth/sign-up")]    
+    [HttpPost("/auth/sign-up")]
     public async Task<IResult> SignUp([FromBody] SignUpRequestDTO request)
     {
-        var newUser = new UserEntity(){
+        var newUser = new UserEntity()
+        {
             UserName = request.UserName,
             LastName = request.LastName,
             Name = request.Name,
@@ -43,15 +45,22 @@ public class AuthController : ControllerBase {
         return Results.Json(result, statusCode: 200);
     }
 
+
+
+
+
     [HttpPost("/auth/sign-up/content-manager/{superSecret}")]
-    public async Task<IResult> SignUpContentManager([FromBody] SignUpRequestDTO request, [FromRoute] string superSecret) {
+    public async Task<IResult> SignUpContentManager([FromBody] SignUpRequestDTO request, [FromRoute] string superSecret)
+    {
         var isSuperSecretValid = _userService.CheckSuperSecretValidity(superSecret);
-        
-        if(!isSuperSecretValid) {
-            return Results.Json(new { message = "SUPER_SECRET not valid"}, statusCode: 200);
+
+        if (!isSuperSecretValid)
+        {
+            return Results.Json(new { message = "SUPER_SECRET not valid" }, statusCode: 200);
         }
-        
-        var registrationStatus = await _userService.RegisterUser(new UserEntity() {
+
+        var registrationStatus = await _userService.RegisterUser(new UserEntity()
+        {
             UserName = request.UserName,
             LastName = request.LastName,
             Name = request.Name,

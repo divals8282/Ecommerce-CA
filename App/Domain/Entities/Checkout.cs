@@ -1,7 +1,8 @@
 namespace App.Domain.Entities;
 
 
-public class CheckoutEntity {
+public class CheckoutEntity
+{
     public int Id { get; set; }
 
     public UserEntity User = null!;

@@ -5,20 +5,23 @@ using Microsoft.AspNetCore.Mvc;
 namespace App.WebApi.Controllers;
 
 [ApiController]
-public class CardController : ControllerBase {
+public class CardController : ControllerBase
+{
 
     private CardService _cardService;
 
-    public CardController (CardService cardService) {
+    public CardController(CardService cardService)
+    {
         _cardService = cardService;
     }
-
+    
     [HttpGet("card")]
-    public async Task<IResult> GetCard() 
+    public async Task<IResult> GetCard()
     {
         var identityId = Request.Cookies["identity"];
 
-        if(identityId != null) {
+        if (identityId != null)
+        {
             var Card = await _cardService.GetCard(int.Parse(identityId));
 
             return Results.Json(new { status = true, Card }, statusCode: 200);
@@ -28,11 +31,12 @@ public class CardController : ControllerBase {
     }
 
     [HttpPut("/card/add/{productId}")]
-    public async Task<IResult> AddProduct(int productId) 
+    public async Task<IResult> AddProduct(int productId)
     {
         var identityId = Request.Cookies["identity"];
 
-        if(identityId != null) {
+        if (identityId != null)
+        {
             var status = await _cardService.AddProduct(int.Parse(identityId), productId);
             return Results.Json(new { status }, statusCode: 200);
         }
@@ -45,7 +49,8 @@ public class CardController : ControllerBase {
     {
         var identityId = Request.Cookies["identity"];
 
-        if(identityId != null) {
+        if (identityId != null)
+        {
             var status = await _cardService.DeleteProduct(int.Parse(identityId), productId);
             return Results.Json(new { status }, statusCode: 200);
         }
@@ -58,7 +63,8 @@ public class CardController : ControllerBase {
     {
         var identityId = Request.Cookies["identity"];
 
-        if(identityId != null) {
+        if (identityId != null)
+        {
             var card = await _cardService.GetCard(int.Parse(identityId));
             return Results.Json(new { status = card != null, card }, statusCode: 200);
         }

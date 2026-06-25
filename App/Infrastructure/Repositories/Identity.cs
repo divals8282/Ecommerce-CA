@@ -4,9 +4,10 @@ using App.Infrastructure.Presistence;
 namespace App.Infrastructure.Repositories;
 
 
-public class IdentityRepository {
+public class IdentityRepository
+{
 
-     private readonly AppDbContext _db;
+    private readonly AppDbContext _db;
 
     public IdentityRepository(AppDbContext db)
     {

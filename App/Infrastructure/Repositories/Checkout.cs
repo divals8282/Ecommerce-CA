@@ -4,9 +4,10 @@ using App.Infrastructure.Presistence;
 namespace App.Infrastructure.Repositories;
 
 
-public class CheckoutRepository {
+public class CheckoutRepository
+{
 
-     private readonly AppDbContext _db;
+    private readonly AppDbContext _db;
 
     public CheckoutRepository(AppDbContext db)
     {
@@ -18,7 +19,8 @@ public class CheckoutRepository {
         return await _db.Checkouts.FindAsync(id);
     }
 
-    public async Task<CheckoutEntity> AddNewCheckout(CheckoutEntity checkout) {
+    public async Task<CheckoutEntity> AddNewCheckout(CheckoutEntity checkout)
+    {
         _db.Checkouts.Add(checkout);
 
         await SaveChangesAsync();

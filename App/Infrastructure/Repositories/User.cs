@@ -4,9 +4,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace App.Infrastructure.Repositories;
 
-public class UserRepository {
+public class UserRepository
+{
 
-     private readonly AppDbContext _db;
+    private readonly AppDbContext _db;
 
     public UserRepository(AppDbContext db)
     {
@@ -18,7 +19,8 @@ public class UserRepository {
         return await _db.Users.FindAsync(id);
     }
 
-    public async Task<UserEntity?> GetByFieldName(string fieldName, string value) {
+    public async Task<UserEntity?> GetByFieldName(string fieldName, string value)
+    {
         var u = await _db.Users.FirstOrDefaultAsync((u) => EF.Property<string>(u, fieldName) == value);
 
         return u;
