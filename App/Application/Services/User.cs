@@ -16,7 +16,7 @@ public class UserService {
 
     private readonly IHttpContextAccessor _httpContextAccessor;
 
-    private RJwtPayload CurrentUserJWTPayload() {
+    private RJwtPayload SerializeJWTPayloadAuthUser() {
         var NameIdentifier = int.Parse(
             _httpContextAccessor.HttpContext!
                 .User
@@ -96,25 +96,11 @@ public class UserService {
         return superSecret == realSuperSecret;
     }
 
-    public async Task<GetUserResponseDTO> GetCurrentUser() {
-        var jwtPayload = CurrentUserJWTPayload();
+    public async Task<UserEntity?> GetCurrentUser() {
+        var currentAuthUser = SerializeJWTPayloadAuthUser();
 
-        var u = await _userRepo.GetByIdAsync(jwtPayload.NameIdentifier);
+        var u = await _userRepo.GetByIdAsync(currentAuthUser.NameIdentifier);
 
-        if(u != null) {
-            return new GetUserResponseDTO() {
-                LastName = u.LastName,
-                Name = u.Name,
-                Role = u.Role,
-                UserName = u.UserName
-            };
-        }
-
-        return new GetUserResponseDTO() {
-                LastName = "",
-                Name = "",
-                Role = RoleEnum.CLIENT,
-                UserName = ""
-        };
+        return u;
     }
 }

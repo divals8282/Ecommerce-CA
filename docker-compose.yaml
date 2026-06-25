@@ -1,7 +1,7 @@
 services:
   mssql:
     image: mcr.microsoft.com/mssql/server:2022-latest
-    container_name: mssql
+    container_name: ecommerce-mssql
     restart: unless-stopped
     environment:
       ACCEPT_EULA: "Y"
@@ -13,8 +13,8 @@ services:
       - mssql_data:/var/opt/mssql
 
   adminer:
-    image: adminer:latest
-    container_name: adminer
+    image: adminer
+    container_name: ecommerce-adminer
     restart: unless-stopped
     ports:
       - "8080:8080"

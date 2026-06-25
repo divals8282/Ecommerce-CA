@@ -2,7 +2,6 @@ using System.Text;
 using App.Application.Services;
 using App.Infrastructure.Presistence;
 using App.Infrastructure.Repositories;
-using App.Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -13,7 +12,9 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 builder.Services.AddDbContext<AppDbContext>((options) => {
-    options.UseSqlServer();
+    options.UseSqlServer(
+        builder.Configuration.GetConnectionString("DefaultConnection")
+    );
 });
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
@@ -25,7 +26,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
             IssuerSigningKey =
                 new SymmetricSecurityKey(
                     Encoding.UTF8.GetBytes(
-                        builder.Configuration["Jwt:SecretKey"]!)),
+                        builder.Configuration["JWT_SECRET"]!)),
 
             ValidateIssuer = false,
             ValidateAudience = false,
@@ -37,7 +38,6 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddControllers();
 
 
-builder.Services.AddScoped<AuthRepository>();
 builder.Services.AddScoped<CardRepository>();
 builder.Services.AddScoped<CheckoutRepository>();
 builder.Services.AddScoped<UserRepository>();

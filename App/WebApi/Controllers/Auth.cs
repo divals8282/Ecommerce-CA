@@ -4,6 +4,7 @@ using App.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using App.Domain.Enums;
 using Microsoft.AspNetCore.Authorization;
+
 namespace App.WebApi.Controllers;
 
 [ApiController]

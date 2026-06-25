@@ -1,5 +1,6 @@
 using App.Application.Authentication.JWT;
 using App.Domain.Entities;
+using App.Infrastructure.Authentication.JWT;
 using App.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Identity;
 
