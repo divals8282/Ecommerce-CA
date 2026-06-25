@@ -9,7 +9,6 @@ namespace App.WebApi.Controllers;
 [ApiController]
 public class ProductController : ControllerBase
 {
-
     private ProductService _productService;
 
     public ProductController(ProductService productService)
