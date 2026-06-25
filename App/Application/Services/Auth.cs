@@ -8,7 +8,7 @@ namespace App.Application.Services;
 
 public class AuthService : IAuthService
 {
-    private PasswordHasher<object> hasher = new PasswordHasher<object>();
+    private PasswordHasher<UserEntity> hasher = new PasswordHasher<UserEntity>();
     private readonly IAuthRepository _authRepo;
     private readonly IJwtTokenGenerator _jwt;
 
@@ -21,25 +21,30 @@ public class AuthService : IAuthService
 
     public async Task<bool> ComparePasswordAsync(UserEntity u, string cleanPassword)
     {
-        var hashedPassword = hasher.HashPassword(new(), cleanPassword);
         var user = await _authRepo.GetByIdAsync(u.Id);
 
-        if (user != null)
-        {
-            return user.Password == hashedPassword;
+        if(user != null) {
+            var verificationResult = hasher.VerifyHashedPassword(
+                user,
+                user.Password,
+                cleanPassword
+            );
+
+            return verificationResult == PasswordVerificationResult.Success;
         }
 
         return false;
     }
 
     public async Task<string> CreateTokenAsync(UserEntity user, ETokenType tokenType)
-    {
+    {   
         if (tokenType == ETokenType.REFRESH)
         {
             var u = await _authRepo.GetByIdAsync(user.Id);
 
             if (u != null)
             {
+                
                 u.RefreshToken = _jwt.GenerateToken(u, tokenType);
 
                 await _authRepo.SaveChangesAsync();

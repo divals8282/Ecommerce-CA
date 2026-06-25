@@ -6,6 +6,7 @@ using App.Infrastructure.Authentication.JWT;
 using App.Domain.Interfaces.Repositories;
 using App.Application.Enums.JWT;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Options;
 
 namespace App.Application.Services;
 
@@ -15,15 +16,16 @@ public class UserService : IUserService
     private PasswordHasher<object> hasher = new PasswordHasher<object>();
     private readonly IUserRepository _userRepo;
     private readonly IAuthService _authService;
-    private readonly IConfiguration _config;
 
     private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public UserService(IUserRepository userRepo, IAuthService authService, IConfiguration config, IHttpContextAccessor httpContextAccessor)
+    private readonly IOptions<AppOptions> _appOptions;
+
+    public UserService(IUserRepository userRepo, IAuthService authService, IHttpContextAccessor httpContextAccessor, IOptions<AppOptions> appOptions)
     {
         _userRepo = userRepo;
         _authService = authService;
-        _config = config;
+        _appOptions = appOptions;
         _httpContextAccessor = httpContextAccessor;
     }
 
@@ -70,7 +72,7 @@ public class UserService : IUserService
 
     public async Task<bool> RegisterUser(UserEntity user)
     {
-        var hashedPassword = hasher.HashPassword(new(), user.Password);
+        var hashedPassword = hasher.HashPassword(user, user.Password);
 
         user.Password = hashedPassword;
 
@@ -94,7 +96,6 @@ public class UserService : IUserService
         }
 
         var isPasswordValid = await _authService.ComparePasswordAsync(u, user.Password);
-
         if (!isPasswordValid)
         {
             return new SignInResponseDTO()
@@ -103,26 +104,24 @@ public class UserService : IUserService
                 message = "Username or Password invalid"
             };
         }
-
+        
         var accessToken = await _authService.CreateTokenAsync(u, ETokenType.ACCESS);
         var refreshToken = await _authService.CreateTokenAsync(u, ETokenType.REFRESH);
        
-        return new SignInResponseDTO()
+        return new SignInResponseDTO
         {
             status = true,
             message = "Success",
-            data = {
-                    accessToken = accessToken,
-                    refreshToken = refreshToken
-                }
+            data = new SignInResponseDTO.TokensDTO {
+                accessToken = accessToken,
+                refreshToken = refreshToken
+            }
         };
     }
 
-    public bool CheckSuperSecretValidity(string superSecret)
+    public bool CheckSuperSecretValidity(string providedSuperSecret)
     {
-        var realSuperSecret = _config["SUPER_SECRET"];
-
-        return superSecret == realSuperSecret;
+        return providedSuperSecret == _appOptions.Value.SUPER_SECRET;
     }
 
     public async Task<UserEntity?> GetCurrentUser()

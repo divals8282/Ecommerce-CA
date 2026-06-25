@@ -29,11 +29,13 @@ public class JwtTokenGenerator : IJwtTokenGenerator
         };
 
         var key = new SymmetricSecurityKey(
-            Encoding.UTF8.GetBytes(_options.SecretKey));
+            Encoding.UTF8.GetBytes(_options.SECRET_KEY));
 
         var credentials = new SigningCredentials(
             key,
             SecurityAlgorithms.HmacSha256);
+
+
 
         var token = new JwtSecurityToken(
             claims: claims,

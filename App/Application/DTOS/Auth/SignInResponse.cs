@@ -1,5 +1,3 @@
-using System.ComponentModel.DataAnnotations;
-
 namespace App.Application.DTOS.Auth;
 
 public class SignInResponseDTO
