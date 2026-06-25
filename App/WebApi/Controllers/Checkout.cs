@@ -1,33 +1,30 @@
+using App.Application.Services;
 using App.Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace App.WebApi.Controllers;
 
 [ApiController]
 public class CheckoutControler : ControllerBase {
+    private CheckoutService _checkoutService;
 
-    [HttpPut("/checkout/{cardId}")]
+    public CheckoutControler(CheckoutService checkoutService) {
+        _checkoutService = checkoutService;
+    }
+
+    [HttpPut("/checkout")]
+    [Authorize]
     public async Task<IResult> Checkout()
     {
-        return Results.Json(new {  }, statusCode: 200);
-    }
+        var identityId = Request.Cookies["identity"];
 
-    [HttpDelete("/checkout/{productId}")]
-    public async Task<IResult> Delete()
-    {
-        return Results.Json(new { }, statusCode: 200);
-    }
+        if(identityId != null) {
+            var status = await _checkoutService.ArchivateCard(int.Parse(identityId));
 
+            return Results.Json(new { status }, statusCode: 200);
+        }
 
-    [HttpPost("/product/add")]
-    public async Task<IResult> Add(ProductEntity product)
-    {
-        return Results.Json(new {  }, statusCode: 200);
-    }
-
-    [HttpPut("/product/edit")]
-    public async Task<IResult> Edit(ProductEntity product)
-    {
-        return Results.Json(new {  }, statusCode: 200);
+        return Results.Json(new { status = false }, statusCode: 200);
     }
 }

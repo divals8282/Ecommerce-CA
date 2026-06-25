@@ -18,6 +18,14 @@ public class CheckoutRepository {
         return await _db.Checkouts.FindAsync(id);
     }
 
+    public async Task<CheckoutEntity> AddNewCheckout(CheckoutEntity checkout) {
+        _db.Checkouts.Add(checkout);
+
+        await SaveChangesAsync();
+
+        return checkout;
+    }
+
     public async Task SaveChangesAsync()
     {
         await _db.SaveChangesAsync();
