@@ -1,9 +1,10 @@
 using App.Domain.Entities;
 using App.Domain.Interfaces.Repositories;
+using App.Domains.Interfaces.Services;
 
 namespace App.Application.Services;
 
-public class CardService
+public class CardService : ICardService
 {
 
     private readonly IProductRepository _productRepo;

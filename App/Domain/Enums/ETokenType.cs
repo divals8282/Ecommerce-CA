@@ -1,4 +1,4 @@
-namespace App.Application.Authentication.JWT;
+namespace App.Application.Enums.JWT;
 
 public enum ETokenType
 {

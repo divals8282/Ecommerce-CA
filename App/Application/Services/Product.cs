@@ -1,10 +1,11 @@
 using App.Application.DTOS.Auth;
 using App.Domain.Entities;
 using App.Domain.Interfaces.Repositories;
+using App.Domains.Interfaces.Services;
 
 namespace App.Application.Services;
 
-public class ProductService
+public class ProductService : IProductService
 {
     private IProductRepository _productRepo;
 

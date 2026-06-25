@@ -1,6 +1,6 @@
 using App.Application.DTOS.Auth;
-using App.Application.Services;
 using App.Domain.Enums;
+using App.Domains.Interfaces.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,9 +9,9 @@ namespace App.WebApi.Controllers;
 [ApiController]
 public class ProductController : ControllerBase
 {
-    private ProductService _productService;
+    private IProductService _productService;
 
-    public ProductController(ProductService productService)
+    public ProductController(IProductService productService)
     {
         _productService = productService;
     }

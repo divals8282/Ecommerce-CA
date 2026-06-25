@@ -1,4 +1,4 @@
-using App.Application.Authentication.JWT;
+using App.Application.Enums.JWT;
 
 namespace App.Infrastructure.Authentication.JWT;
 

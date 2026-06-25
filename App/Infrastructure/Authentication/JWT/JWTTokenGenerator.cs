@@ -2,8 +2,8 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using App.Application.Authentication.JWT;
+using App.Application.Enums.JWT;
 using App.Domain.Entities;
-using App.Infrastructure.Authentication.JWT;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 

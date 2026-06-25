@@ -1,3 +1,4 @@
+using App.Application.Enums.JWT;
 using App.Domain.Entities;
 
 namespace App.Application.Authentication.JWT;

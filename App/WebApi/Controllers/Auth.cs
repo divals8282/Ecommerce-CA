@@ -11,9 +11,9 @@ namespace App.WebApi.Controllers;
 public class AuthController : ControllerBase
 {
 
-    private readonly UserService _userService;
+    private readonly IUserService _userService;
 
-    public AuthController(UserService userService)
+    public AuthController(IUserService userService)
     {
         _userService = userService;
     }

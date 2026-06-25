@@ -1,6 +1,5 @@
-using App.Application.Services;
-using App.Domain.Entities;
 using App.Domain.Enums;
+using App.Domains.Interfaces.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,9 +8,9 @@ namespace App.WebApi.Controllers;
 [ApiController]
 public class CheckoutControler : ControllerBase
 {
-    private CheckoutService _checkoutService;
+    private ICheckoutService _checkoutService;
 
-    public CheckoutControler(CheckoutService checkoutService)
+    public CheckoutControler(ICheckoutService checkoutService)
     {
         _checkoutService = checkoutService;
     }

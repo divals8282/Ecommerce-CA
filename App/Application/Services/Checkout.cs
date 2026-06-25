@@ -1,10 +1,11 @@
 using App.Domain.Entities;
 using App.Domain.Interfaces.Repositories;
+using App.Domains.Interfaces.Services;
 
 namespace App.Application.Services;
 
 
-public class CheckoutService
+public class CheckoutService : ICheckoutService
 {
 
     private readonly IProductRepository _productRepo;

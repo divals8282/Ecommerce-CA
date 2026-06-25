@@ -1,5 +1,6 @@
 using App.Application.Services;
 using App.Domain.Entities;
+using App.Domains.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace App.WebApi.Controllers;
@@ -8,9 +9,9 @@ namespace App.WebApi.Controllers;
 public class CardController : ControllerBase
 {
 
-    private CardService _cardService;
+    private ICardService _cardService;
 
-    public CardController(CardService cardService)
+    public CardController(ICardService cardService)
     {
         _cardService = cardService;
     }

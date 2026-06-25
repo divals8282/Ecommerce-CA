@@ -1,16 +1,15 @@
 using App.Application.DTOS.Auth;
 using App.Domain.Entities;
 using App.Domain.Enums;
-using App.Infrastructure.Repositories;
 using App.Infrastructure.Services;
-using App.Application.Authentication.JWT;
 using System.Security.Claims;
 using App.Infrastructure.Authentication.JWT;
 using App.Domain.Interfaces.Repositories;
+using App.Application.Enums.JWT;
 
 namespace App.Application.Services;
 
-public class UserService
+public class UserService : IUserService
 {
     private readonly IUserRepository _userRepo;
     private readonly AuthService _authService;

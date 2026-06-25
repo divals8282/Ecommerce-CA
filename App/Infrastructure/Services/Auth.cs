@@ -1,4 +1,4 @@
-using App.Application.Authentication.JWT;
+using App.Application.Enums.JWT;
 using App.Domain.Entities;
 using App.Infrastructure.Authentication.JWT;
 using App.Infrastructure.Repositories;
