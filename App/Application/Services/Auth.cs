@@ -45,7 +45,6 @@ public class AuthService : IAuthService
 
             if (u != null)
             {
-                
                 u.RefreshToken = _jwt.GenerateToken(u, tokenType);
 
                 await _authRepo.SaveChangesAsync();

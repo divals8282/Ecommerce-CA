@@ -21,6 +21,11 @@ public class ProductService : IProductService
         return await _productRepo.GetList(limit, offset);
     }
 
+    public async Task<int> Count()
+    {
+        return await _productRepo.Count();
+    }
+
     public async Task<ProductEntity?> GetProductById(int productId)
     {
         return await _productRepo.GetByIdAsync(productId);

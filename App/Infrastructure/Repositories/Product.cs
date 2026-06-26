@@ -8,7 +8,6 @@ namespace App.Infrastructure.Repositories;
 
 public class ProductRepository : IProductRepository
 {
-
     private readonly AppDbContext _db;
 
     public ProductRepository(AppDbContext db)
@@ -16,10 +15,14 @@ public class ProductRepository : IProductRepository
         _db = db;
     }
 
-
     public async Task<List<ProductEntity>> GetList(int offset, int limit)
     {
         return await _db.Products.Skip(offset).Take(limit).ToListAsync();
+    }
+
+    public async Task<int> Count()
+    {
+        return await _db.Products.CountAsync();
     }
 
     public async Task<ProductEntity?> GetByIdAsync(int id)

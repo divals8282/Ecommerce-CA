@@ -35,8 +35,6 @@ public class JwtTokenGenerator : IJwtTokenGenerator
             key,
             SecurityAlgorithms.HmacSha256);
 
-
-
         var token = new JwtSecurityToken(
             claims: claims,
             expires: DateTime.UtcNow.AddMinutes(tokenType == ETokenType.ACCESS ? 15 : (24 * 60)),

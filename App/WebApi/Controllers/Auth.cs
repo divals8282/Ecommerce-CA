@@ -73,7 +73,7 @@ public class AuthController : ControllerBase
             LastName = request.LastName,
             Name = request.Name,
             Password = request.Password,
-            Role = ERole.CLIENT,
+            Role = ERole.CONTENT_MANAGER,
             Checkouts = new List<CheckoutEntity>(),
             RefreshToken = ""
         });

@@ -15,9 +15,9 @@ public class CheckoutService : ICheckoutService
     private IIdentityRepository _identityRepo;
 
     private ICheckoutRepository _checkoutRepo;
-    private UserService _userService;
+    private IUserService _userService;
 
-    public CheckoutService(ICartRepository cartRepo, IIdentityRepository identityRepo, IProductRepository productRepo, UserService userService, ICheckoutRepository checkoutRepo)
+    public CheckoutService(ICartRepository cartRepo, IIdentityRepository identityRepo, IProductRepository productRepo, IUserService userService, ICheckoutRepository checkoutRepo)
     {
         _cartRepo = cartRepo;
         _identityRepo = identityRepo;

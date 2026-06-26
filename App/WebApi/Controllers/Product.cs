@@ -21,21 +21,26 @@ public class ProductController : ControllerBase
     public async Task<IResult> List(int limit, int offset)
     {
         var products = await _productService.List(limit, offset);
-        return Results.Json(new { status = true, products }, statusCode: 200);
+        var total = await _productService.Count();
+        return Results.Json(new { status = true, products, total }, statusCode: 200);
     }
 
-    [HttpPut("/product/{productId}")]
+    [HttpPut("/product")]
     [Authorize(Roles = nameof(ERole.CONTENT_MANAGER))]
     public async Task<IResult> Product([FromBody] ProductRequestDTO productDTO)
     {
-        var productEntity = await _productService.Add(productDTO);
+        var product = await _productService.Add(productDTO);
 
-        return Results.Json(new { status = productEntity != null, product = new ProductResponseDTO
+        return Results.Json(new
         {
-            Id = productEntity != null ? productEntity.Id : 0,
-            Name = productEntity != null ? productEntity.Name : string.Empty,
-            Price = productEntity != null ? productEntity.Price : 0
-        } }, statusCode: 200);
+            status = product != null,
+            product = product != null ? new ProductResponseDTO
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Price = product.Price
+            } : null
+        }, statusCode: 200);
     }
 
     [HttpPost("/product/edit/{productId}")]

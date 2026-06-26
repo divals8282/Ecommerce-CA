@@ -10,6 +10,8 @@ public interface IProductRepository
 
     public Task<bool> Add(ProductEntity product);
 
+    public Task<int> Count();
+
     public Task<bool> Delete(ProductEntity product);
 
     public Task SaveChangesAsync();

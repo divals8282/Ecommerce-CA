@@ -8,6 +8,7 @@ public interface IProductService
     public Task<List<ProductEntity>> List(int limit, int offset);
     public Task<ProductEntity?> GetProductById(int productId);
     public Task<ProductEntity?> Add(ProductRequestDTO product);
+    public Task<int> Count();
     public Task<bool> Delete(int productId);
     public Task<bool> Edit(int productId, ProductRequestDTO productDTO);
 }
