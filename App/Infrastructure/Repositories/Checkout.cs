@@ -31,12 +31,16 @@ public class CheckoutRepository : ICheckoutRepository
 
     public async Task<List<CheckoutEntity>> All()
     {
-        return await _db.Checkouts.Include(c => c.Products).Include(c => c.User).ToListAsync();
+        return await _db.Checkouts
+            .Include(c => c.Products)
+            .Include(c => c.User).ToListAsync();
     }
 
     public async Task<List<CheckoutEntity>> GetByUserId(int userId)
     {
-        return await _db.Checkouts.Include(c => c.Products).Where(c => c.User.Id == userId).ToListAsync();
+        return await _db.Checkouts
+            .Include(c => c.Products)
+            .Include(c => c.User).Where(c => c.User.Id == userId).ToListAsync();
     }
 
     public async Task SaveChangesAsync()

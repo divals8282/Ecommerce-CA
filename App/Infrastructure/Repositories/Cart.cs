@@ -31,6 +31,7 @@ public class CartRepository : ICartRepository
         }
 
         cart.Products.Add(product);
+        await _db.SaveChangesAsync();
 
         return true;
     }
@@ -45,7 +46,8 @@ public class CartRepository : ICartRepository
         }
 
         cart.Products.Remove(product);
-
+        await _db.SaveChangesAsync();
+        
         return true;
     }
 
