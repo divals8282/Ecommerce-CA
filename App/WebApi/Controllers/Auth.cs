@@ -58,10 +58,10 @@ public class AuthController : ControllerBase
         }, statusCode: 200);
     }
 
-    [HttpPost("/auth/sign-up/content-manager/{superSecret}")]
-    public async Task<IResult> SignUpContentManager([FromBody] SignUpRequestDTO request, [FromRoute] string superSecret)
+    [HttpPost("/auth/sign-up/content-manager")]
+    public async Task<IResult> SignUpContentManager([FromBody] SignUpManagerRequestDTO request)
     {
-        var isSuperSecretValid = _userService.CheckSuperSecretValidity(superSecret);
+        var isSuperSecretValid = _userService.CheckSuperSecretValidity(request.SuperSecret);
 
         if (!isSuperSecretValid)
         {

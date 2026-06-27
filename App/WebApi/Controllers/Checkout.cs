@@ -24,7 +24,14 @@ public class CheckoutControler : ControllerBase
 
         if (anoUserId != null)
         {
-            var status = await _checkoutService.ArchivateCart(int.Parse(anoUserId));
+            var anoUserIdInt = int.TryParse(anoUserId, out var userId);
+
+            if(anoUserIdInt == false)
+            {
+                return Results.Json(new { status = false }, statusCode: 200);
+            }
+
+            var status = await _checkoutService.ArchivateCart(userId);
 
             return Results.Json(new { status }, statusCode: 200);
         }
@@ -40,7 +47,14 @@ public class CheckoutControler : ControllerBase
 
         if (anoUserId != null)
         {
-            var list = await _checkoutService.List(int.Parse(anoUserId));
+            var anoUserIdInt = int.TryParse(anoUserId, out var userId);
+
+            if(anoUserIdInt == false)
+            {
+                return Results.Json(new { status = false }, statusCode: 200);
+            }
+            
+            var list = await _checkoutService.List(userId);
 
             if (list != null)
             {

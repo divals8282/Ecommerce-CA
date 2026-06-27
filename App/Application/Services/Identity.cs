@@ -50,7 +50,14 @@ public class AnoUserService : IAnoUserService
             return false;
         }
 
-        var anoUser = await _anoUserRepo.GetByIdAsync(int.Parse(anoUserId));
+        var anoUserIdInt = int.TryParse(anoUserId, out var userId);
+
+        if(anoUserIdInt == false)
+        {
+            return false;
+        }
+
+        var anoUser = await _anoUserRepo.GetByIdAsync(userId);
 
         if (anoUser == null)
         {

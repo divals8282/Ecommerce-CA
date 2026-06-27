@@ -25,7 +25,14 @@ public class CartService : ICartService
             return null;
         }
 
-        var cart = await _anoUserService.GetCart(int.Parse(anoUserId));
+        var anoUserIdInt = int.TryParse(anoUserId, out var userId);
+
+        if(anoUserIdInt == false)
+        {
+            return null;
+        }
+
+        var cart = await _anoUserService.GetCart(userId);
         
 
         return cart;
@@ -51,7 +58,14 @@ public class CartService : ICartService
             return newAnoUser.Id;
         }
 
-        var cart = await _cartRepo.GetByAnoUserId(int.Parse(anoUserId));
+        var anoUserIdInt = int.TryParse(anoUserId, out var userId);
+
+        if(anoUserIdInt == false)
+        {
+            return null;
+        }
+
+        var cart = await _cartRepo.GetByAnoUserId(userId);
 
         if (cart == null)
         {
@@ -60,7 +74,7 @@ public class CartService : ICartService
 
         await _cartRepo.AddProduct(cart.Id, product);
 
-        return int.Parse(anoUserId);
+        return userId;
     }
 
     public async Task<bool> DeleteProduct(string? anoUserId, int productId)
@@ -69,8 +83,15 @@ public class CartService : ICartService
         {
             return false;
         }
+        
+        var anoUserIdInt = int.TryParse(anoUserId, out var userId);
 
-        var cart = await _cartRepo.GetByAnoUserId(int.Parse(anoUserId));
+        if(anoUserIdInt == false)
+        {
+            return false;
+        }
+
+        var cart = await _cartRepo.GetByAnoUserId(userId);
         var product = await _productRepo.GetByIdAsync(productId);
 
 
@@ -92,7 +113,14 @@ public class CartService : ICartService
             return false;
         }
 
-        var cart = await _cartRepo.GetByAnoUserId(int.Parse(anoUserId));
+        var anoUserIdInt = int.TryParse(anoUserId, out var userId);
+
+        if(anoUserIdInt == false)
+        {
+            return false;
+        }
+
+        var cart = await _cartRepo.GetByAnoUserId(userId);
 
         if (cart == null)
         {
