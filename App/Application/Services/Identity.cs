@@ -7,10 +7,28 @@ namespace App.Application.Services;
 public class IdentityService : IIdentityService
 {
     private IIdentityRepository _identityRepo;
+    private ICartRepository _cartRepo;
+    private IProductRepository _productRepo;
 
-    public IdentityService(IIdentityRepository identityRepo)
+    public IdentityService(IIdentityRepository identityRepo, ICartRepository cartRepo, IProductRepository productRepo)
     {
         _identityRepo = identityRepo;
+        _cartRepo = cartRepo;
+        _productRepo = productRepo;
+    }
+
+    public async Task<CartEntity?> GetCart(int identityId)
+    {
+        var identity = await _identityRepo.GetByIdAsync(identityId);
+        
+        if(identity == null)
+        {
+            return null;
+        }
+
+        var cart = await _cartRepo.GetByIdAsync(identity.CartId);
+
+        return cart;
     }
 
     public async Task<IdentityEntity> CreateIdentity(CartEntity cart)

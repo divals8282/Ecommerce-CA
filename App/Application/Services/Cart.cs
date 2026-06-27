@@ -25,7 +25,7 @@ public class CartService : ICartService
             return null;
         }
 
-        var cart = await _cartRepo.GetByIdentityId(int.Parse(identityId));
+        var cart = await _identityService.GetCart(int.Parse(identityId));
 
         return cart;
     }

@@ -9,5 +9,5 @@ public class ProductResponseDTO
     public required string Name { get; set; }
 
     [Required]
-    public required double Price { get; set; }
+    public required decimal Price { get; set; }
 }

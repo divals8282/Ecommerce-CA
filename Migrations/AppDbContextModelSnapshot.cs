@@ -86,9 +86,6 @@ namespace ecommerce.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("CartEntityId")
-                        .HasColumnType("int");
-
                     b.Property<int?>("CheckoutEntityId")
                         .HasColumnType("int");
 
@@ -96,12 +93,10 @@ namespace ecommerce.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("Price")
-                        .HasColumnType("float");
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CartEntityId");
 
                     b.HasIndex("CheckoutEntityId");
 
@@ -147,6 +142,21 @@ namespace ecommerce.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("CartEntityProductEntity", b =>
+                {
+                    b.Property<int>("CartsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CartsId", "ProductsId");
+
+                    b.HasIndex("ProductsId");
+
+                    b.ToTable("CartEntityProductEntity");
+                });
+
             modelBuilder.Entity("App.Domain.Entities.CheckoutEntity", b =>
                 {
                     b.HasOne("App.Domain.Entities.UserEntity", "User")
@@ -171,21 +181,30 @@ namespace ecommerce.Migrations
 
             modelBuilder.Entity("App.Domain.Entities.ProductEntity", b =>
                 {
-                    b.HasOne("App.Domain.Entities.CartEntity", null)
-                        .WithMany("Products")
-                        .HasForeignKey("CartEntityId");
-
                     b.HasOne("App.Domain.Entities.CheckoutEntity", null)
                         .WithMany("Products")
                         .HasForeignKey("CheckoutEntityId");
+                });
+
+            modelBuilder.Entity("CartEntityProductEntity", b =>
+                {
+                    b.HasOne("App.Domain.Entities.CartEntity", null)
+                        .WithMany()
+                        .HasForeignKey("CartsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("App.Domain.Entities.ProductEntity", null)
+                        .WithMany()
+                        .HasForeignKey("ProductsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("App.Domain.Entities.CartEntity", b =>
                 {
                     b.Navigation("Identity")
                         .IsRequired();
-
-                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("App.Domain.Entities.CheckoutEntity", b =>

@@ -18,7 +18,7 @@ public class CartRepository : ICartRepository
 
     public async Task<CartEntity?> GetByIdAsync(int id)
     {
-        return await _db.Carts.FindAsync(id);
+        return await _db.Carts.Include(c => c.Products).FirstOrDefaultAsync(c => c.Id == id);
     }
 
     public async Task<bool> AddProduct(int cartId, ProductEntity product)

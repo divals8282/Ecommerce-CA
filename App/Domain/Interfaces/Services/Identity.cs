@@ -6,6 +6,7 @@ public interface IIdentityService
 {
     public Task<IdentityEntity> CreateIdentity(CartEntity cart);
     public Task<bool> DeleteIdentity(string? identityId);
+    public Task<CartEntity?> GetCart(int identityId);
 
     public Task<IdentityEntity?> GetIdentityById(int identityId);
 }

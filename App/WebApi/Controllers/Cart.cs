@@ -1,3 +1,4 @@
+using App.Application.DTOS.Cart;
 using App.Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -23,7 +24,18 @@ public class CartController : ControllerBase
 
         var cart = await _cartService.GetCart(identityId);
 
-        return Results.Json(new { status = cart != null, cart }, statusCode: 200);
+        return Results.Json(new GetCartResponseDTO
+        {
+            Status = cart != null,
+            Data = cart?.Products?
+                .Select(p => new GetCartResponseDTO.Products
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    Price = p.Price
+                })
+                .ToList()
+        }, statusCode: 200);
     }
 
     [HttpPut("/cart/add/{productId}")]
@@ -31,9 +43,18 @@ public class CartController : ControllerBase
     {
         var identityId = Request.Cookies["identity"];
 
-        var status = await _cartService.AddProduct(identityId, productId);
+        var possibleNewIdentity = await _cartService.AddProduct(identityId, productId);
 
-        return Results.Json(new { status }, statusCode: 200);
+        if (identityId == null && possibleNewIdentity != null)
+        {
+            var identityValue = possibleNewIdentity.ToString();
+            if (!string.IsNullOrEmpty(identityValue))
+            {
+                Response.Cookies.Append("identity", identityValue);
+            }
+        }
+
+        return Results.Json(new { identity = identityId == null ? possibleNewIdentity.ToString() : identityId }, statusCode: 200);
     }
 
     [HttpDelete("/cart/product/{productId}")]

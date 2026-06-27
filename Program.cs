@@ -22,8 +22,8 @@ builder.Services.AddDbContext<AppDbContext>((options) =>
     );
 });
 
-builder.Logging.ClearProviders();
-builder.Logging.AddConsole();
+// builder.Logging.ClearProviders();
+// builder.Logging.AddConsole();
 
 builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("JWT"));
 builder.Services.Configure<AppOptions>(builder.Configuration.GetSection("APP"));

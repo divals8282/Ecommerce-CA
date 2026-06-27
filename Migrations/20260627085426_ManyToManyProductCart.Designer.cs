@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ecommerce.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260626124655_UniqUserName")]
-    partial class UniqUserName
+    [Migration("20260627085426_ManyToManyProductCart")]
+    partial class ManyToManyProductCart
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,6 +33,9 @@ namespace ecommerce.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
                     b.HasKey("Id");
 
                     b.ToTable("Carts");
@@ -49,7 +52,12 @@ namespace ecommerce.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Checkouts");
                 });
@@ -62,7 +70,13 @@ namespace ecommerce.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("CartId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("CartId")
+                        .IsUnique();
 
                     b.ToTable("Identites");
                 });
@@ -75,14 +89,19 @@ namespace ecommerce.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int?>("CheckoutEntityId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("price")
+                    b.Property<decimal>("Price")
                         .HasColumnType("float");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CheckoutEntityId");
 
                     b.ToTable("Products");
                 });
@@ -124,6 +143,81 @@ namespace ecommerce.Migrations
                         .IsUnique();
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("CartEntityProductEntity", b =>
+                {
+                    b.Property<int>("CartsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CartsId", "ProductsId");
+
+                    b.HasIndex("ProductsId");
+
+                    b.ToTable("CartEntityProductEntity");
+                });
+
+            modelBuilder.Entity("App.Domain.Entities.CheckoutEntity", b =>
+                {
+                    b.HasOne("App.Domain.Entities.UserEntity", "User")
+                        .WithMany("Checkouts")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("App.Domain.Entities.IdentityEntity", b =>
+                {
+                    b.HasOne("App.Domain.Entities.CartEntity", "Cart")
+                        .WithOne("Identity")
+                        .HasForeignKey("App.Domain.Entities.IdentityEntity", "CartId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Cart");
+                });
+
+            modelBuilder.Entity("App.Domain.Entities.ProductEntity", b =>
+                {
+                    b.HasOne("App.Domain.Entities.CheckoutEntity", null)
+                        .WithMany("Products")
+                        .HasForeignKey("CheckoutEntityId");
+                });
+
+            modelBuilder.Entity("CartEntityProductEntity", b =>
+                {
+                    b.HasOne("App.Domain.Entities.CartEntity", null)
+                        .WithMany()
+                        .HasForeignKey("CartsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("App.Domain.Entities.ProductEntity", null)
+                        .WithMany()
+                        .HasForeignKey("ProductsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("App.Domain.Entities.CartEntity", b =>
+                {
+                    b.Navigation("Identity")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("App.Domain.Entities.CheckoutEntity", b =>
+                {
+                    b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("App.Domain.Entities.UserEntity", b =>
+                {
+                    b.Navigation("Checkouts");
                 });
 #pragma warning restore 612, 618
         }
