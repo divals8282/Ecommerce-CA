@@ -2,11 +2,11 @@ using App.Domain.Entities;
 
 namespace App.Domain.Interfaces.Repositories;
 
-public interface IIdentityRepository
+public interface IAnoUserRepository
 {
-    public Task<IdentityEntity?> GetByIdAsync(int id);
-    public Task<IdentityEntity> Add(IdentityEntity identity);
-    public Task<bool> Remove(IdentityEntity identity);
+    public Task<AnoUserEntity?> GetByIdAsync(int id);
+    public Task<AnoUserEntity> Add(AnoUserEntity anoUser);
+    public Task<bool> Remove(AnoUserEntity anoUser);
     public Task SaveChangesAsync();
 
 }

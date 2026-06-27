@@ -5,31 +5,31 @@ using App.Infrastructure.Presistence;
 namespace App.Infrastructure.Repositories;
 
 
-public class IdentityRepository : IIdentityRepository
+public class AnoUserRepository : IAnoUserRepository
 {
 
     private readonly AppDbContext _db;
 
-    public IdentityRepository(AppDbContext db)
+    public AnoUserRepository(AppDbContext db)
     {
         _db = db;
     }
 
-    public async Task<IdentityEntity?> GetByIdAsync(int id)
+    public async Task<AnoUserEntity?> GetByIdAsync(int id)
     {
         return await _db.Identites.FindAsync(id);
     }
 
-    public async Task<IdentityEntity> Add(IdentityEntity identity)
+    public async Task<AnoUserEntity> Add(AnoUserEntity anoUser)
     {
-        await _db.Identites.AddAsync(identity);
+        await _db.Identites.AddAsync(anoUser);
 
-        return identity;
+        return anoUser;
     }
 
-    public async Task<bool> Remove(IdentityEntity identity)
+    public async Task<bool> Remove(AnoUserEntity anoUser)
     {
-        _db.Identites.Remove(identity);
+        _db.Identites.Remove(anoUser);
 
         return true;
     }

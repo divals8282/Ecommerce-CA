@@ -12,7 +12,7 @@ public class AppDbContext : DbContext
 
     public DbSet<UserEntity> Users => Set<UserEntity>();
     public DbSet<CartEntity> Carts => Set<CartEntity>();
-    public DbSet<IdentityEntity> Identites => Set<IdentityEntity>();
+    public DbSet<AnoUserEntity> Identites => Set<AnoUserEntity>();
     public DbSet<ProductEntity> Products => Set<ProductEntity>();
     public DbSet<CheckoutEntity> Checkouts => Set<CheckoutEntity>();
 

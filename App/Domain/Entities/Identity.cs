@@ -1,7 +1,7 @@
 namespace App.Domain.Entities;
 
 
-public class IdentityEntity
+public class AnoUserEntity
 {
     public int Id { get; set; }
 

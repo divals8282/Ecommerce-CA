@@ -4,7 +4,7 @@ using System.Security.Claims;
 using App.Infrastructure.Authentication.JWT;
 using App.Domain.Interfaces.Repositories;
 using App.Application.Enums.JWT;
-using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.AnoUser;
 using Microsoft.Extensions.Options;
 using App.Domain.Interfaces.Services;
 using App.Domain.Enums;

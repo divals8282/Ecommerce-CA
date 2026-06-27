@@ -3,7 +3,7 @@ using App.Domain.Entities;
 using App.Domain.Interfaces.Authentication.JWT;
 using App.Domain.Interfaces.Repositories;
 using App.Domain.Interfaces.Services;
-using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.AnoUser;
 
 namespace App.Application.Services;
 

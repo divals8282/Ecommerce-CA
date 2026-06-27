@@ -12,31 +12,31 @@ public class CheckoutService : ICheckoutService
 
     private readonly ICartRepository _cartRepo;
 
-    private IIdentityRepository _identityRepo;
+    private IAnoUserRepository _anoUserRepo;
 
     private ICheckoutRepository _checkoutRepo;
     private IUserService _userService;
 
-    public CheckoutService(ICartRepository cartRepo, IIdentityRepository identityRepo, IProductRepository productRepo, IUserService userService, ICheckoutRepository checkoutRepo)
+    public CheckoutService(ICartRepository cartRepo, IAnoUserRepository anoUserRepo, IProductRepository productRepo, IUserService userService, ICheckoutRepository checkoutRepo)
     {
         _cartRepo = cartRepo;
-        _identityRepo = identityRepo;
+        _anoUserRepo = anoUserRepo;
         _userService = userService;
         _checkoutRepo = checkoutRepo;
         _productRepo = productRepo;
     }
 
 
-    public async Task<bool> ArchivateCart(int identityId)
+    public async Task<bool> ArchivateCart(int anoUserId)
     {
-        var identity = await _identityRepo.GetByIdAsync(identityId);
+        var anoUser = await _anoUserRepo.GetByIdAsync(anoUserId);
 
-        if (identity == null)
+        if (anoUser == null)
         {
             return false;
         }
 
-        var cart = await _cartRepo.GetByIdentityId(identity.Id);
+        var cart = await _cartRepo.GetByAnoUserId(anoUser.Id);
 
         if (cart == null)
         {
@@ -68,11 +68,11 @@ public class CheckoutService : ICheckoutService
         return true;
     }
 
-    public async Task<List<CheckoutEntity>?> List(int identityId)
+    public async Task<List<CheckoutEntity>?> List(int anoUserId)
     {
-        var identity = await _identityRepo.GetByIdAsync(identityId);
+        var anoUser = await _anoUserRepo.GetByIdAsync(anoUserId);
 
-        if (identity == null)
+        if (anoUser == null)
         {
             return null;
         }

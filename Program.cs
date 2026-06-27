@@ -9,7 +9,7 @@ using App.Infrastructure.Presistence;
 using App.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
+using Microsoft.AnoUserModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -60,12 +60,12 @@ builder.Services.AddScoped<ICartService, CartService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ICheckoutService, CheckoutService>();
 builder.Services.AddScoped<IProductService, ProductService>();
-builder.Services.AddScoped<IIdentityService, IdentityService>();
+builder.Services.AddScoped<IAnoUserService, AnoUserService>();
 
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddScoped<ICartRepository, CartRepository>();
 builder.Services.AddScoped<ICheckoutRepository, CheckoutRepository>();
-builder.Services.AddScoped<IIdentityRepository, IdentityRepository>();
+builder.Services.AddScoped<IAnoUserRepository, AnoUserRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 

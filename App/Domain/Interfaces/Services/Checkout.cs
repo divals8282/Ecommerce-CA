@@ -4,6 +4,6 @@ namespace App.Domain.Interfaces.Services;
 
 public interface ICheckoutService
 {
-    public Task<bool> ArchivateCart(int identityId);
-    public Task<List<CheckoutEntity>?> List(int identityId);
+    public Task<bool> ArchivateCart(int anoUserId);
+    public Task<List<CheckoutEntity>?> List(int anoUserId);
 }

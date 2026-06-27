@@ -7,31 +7,31 @@ namespace App.Application.Services;
 public class CartService : ICartService
 {
     private readonly IProductRepository _productRepo;
-    private readonly IIdentityService _identityService;
+    private readonly IAnoUserService _anoUserService;
 
     private readonly ICartRepository _cartRepo;
 
-    public CartService(IProductRepository productRepo, ICartRepository cartRepo, IIdentityService identityService)
+    public CartService(IProductRepository productRepo, ICartRepository cartRepo, IAnoUserService anoUserService)
     {
         _productRepo = productRepo;
         _cartRepo = cartRepo;
-        _identityService = identityService;
+        _anoUserService = anoUserService;
     }
 
-    public async Task<CartEntity?> GetCart(string? identityId)
+    public async Task<CartEntity?> GetCart(string? anoUserId)
     {
-        if (identityId == null)
+        if (anoUserId == null)
         {
             return null;
         }
 
-        var cart = await _identityService.GetCart(int.Parse(identityId));
+        var cart = await _anoUserService.GetCart(int.Parse(anoUserId));
         
 
         return cart;
     }
 
-    public async Task<int?> AddProduct(string? identityId, int productId)
+    public async Task<int?> AddProduct(string? anoUserId, int productId)
     {
         var product = await _productRepo.GetByIdAsync(productId);
 
@@ -40,18 +40,18 @@ public class CartService : ICartService
             return null;
         }
 
-        if (identityId == null)
+        if (anoUserId == null)
         {
             var newCart = new CartEntity();
-            var newIdentity = await _identityService.CreateIdentity(newCart);
+            var newAnoUser = await _anoUserService.CreateAnoUser(newCart);
 
             await _cartRepo.AddProduct(newCart.Id, product);
             await _cartRepo.SaveChangesAsync();
 
-            return newIdentity.Id;
+            return newAnoUser.Id;
         }
 
-        var cart = await _cartRepo.GetByIdentityId(int.Parse(identityId));
+        var cart = await _cartRepo.GetByAnoUserId(int.Parse(anoUserId));
 
         if (cart == null)
         {
@@ -60,17 +60,17 @@ public class CartService : ICartService
 
         await _cartRepo.AddProduct(cart.Id, product);
 
-        return int.Parse(identityId);
+        return int.Parse(anoUserId);
     }
 
-    public async Task<bool> DeleteProduct(string? identityId, int productId)
+    public async Task<bool> DeleteProduct(string? anoUserId, int productId)
     {
-        if (identityId == null)
+        if (anoUserId == null)
         {
             return false;
         }
 
-        var cart = await _cartRepo.GetByIdentityId(int.Parse(identityId));
+        var cart = await _cartRepo.GetByAnoUserId(int.Parse(anoUserId));
         var product = await _productRepo.GetByIdAsync(productId);
 
 
@@ -85,14 +85,14 @@ public class CartService : ICartService
         return true;
     }
 
-    public async Task<bool> DeleteCart(string? identityId)
+    public async Task<bool> DeleteCart(string? anoUserId)
     {
-        if (identityId == null)
+        if (anoUserId == null)
         {
             return false;
         }
 
-        var cart = await _cartRepo.GetByIdentityId(int.Parse(identityId));
+        var cart = await _cartRepo.GetByAnoUserId(int.Parse(anoUserId));
 
         if (cart == null)
         {

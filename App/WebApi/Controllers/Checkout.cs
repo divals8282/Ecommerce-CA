@@ -20,11 +20,11 @@ public class CheckoutControler : ControllerBase
     [Authorize(Roles = nameof(ERole.CLIENT))]
     public async Task<IResult> Checkout()
     {
-        var identityId = Request.Cookies["identity"];
+        var anoUserId = Request.Cookies["anoUser"];
 
-        if (identityId != null)
+        if (anoUserId != null)
         {
-            var status = await _checkoutService.ArchivateCart(int.Parse(identityId));
+            var status = await _checkoutService.ArchivateCart(int.Parse(anoUserId));
 
             return Results.Json(new { status }, statusCode: 200);
         }
@@ -36,11 +36,11 @@ public class CheckoutControler : ControllerBase
     [Authorize]
     public async Task<IResult> CheckoutList()
     {
-        var identityId = Request.Cookies["identity"];
+        var anoUserId = Request.Cookies["anoUser"];
 
-        if (identityId != null)
+        if (anoUserId != null)
         {
-            var list = await _checkoutService.List(int.Parse(identityId));
+            var list = await _checkoutService.List(int.Parse(anoUserId));
 
             if (list != null)
             {

@@ -9,24 +9,24 @@ public class CartController : ControllerBase
 {
 
     private readonly ICartService _cartService;
-    private readonly IIdentityService _identityService;
+    private readonly IAnoUserService _anoUserService;
 
-    public CartController(ICartService cartService, IIdentityService identityService)
+    public CartController(ICartService cartService, IAnoUserService anoUserService)
     {
         _cartService = cartService;
-        _identityService = identityService;
+        _anoUserService = anoUserService;
     }
 
     [HttpGet("cart")]
     public async Task<IResult> GetCart()
     {
-        var identityId = Request.Cookies["identity"];
+        var anoUserId = Request.Cookies["anoUser"];
 
-        var cart = await _cartService.GetCart(identityId);
+        var cart = await _cartService.GetCart(anoUserId);
 
         if(cart == null)
         {
-            Response.Cookies.Delete("identity");
+            Response.Cookies.Delete("anoUser");
         }
 
         return Results.Json(new GetCartResponseDTO
@@ -46,28 +46,28 @@ public class CartController : ControllerBase
     [HttpPut("/cart/add/{productId}")]
     public async Task<IResult> AddProduct(int productId)
     {
-        var identityId = Request.Cookies["identity"];
+        var anoUserId = Request.Cookies["anoUser"];
 
-        var possibleNewIdentity = await _cartService.AddProduct(identityId, productId);
+        var possibleNewAnoUser = await _cartService.AddProduct(anoUserId, productId);
 
-        if (identityId == null && possibleNewIdentity != null)
+        if (anoUserId == null && possibleNewAnoUser != null)
         {
-            var identityValue = possibleNewIdentity.ToString();
-            if (!string.IsNullOrEmpty(identityValue))
+            var anoUserValue = possibleNewAnoUser.ToString();
+            if (!string.IsNullOrEmpty(anoUserValue))
             {
-                Response.Cookies.Append("identity", identityValue);
+                Response.Cookies.Append("anoUser", anoUserValue);
             }
         }
 
-        return Results.Json(new { identity = identityId == null ? possibleNewIdentity.ToString() : identityId }, statusCode: 200);
+        return Results.Json(new { anoUser = anoUserId == null ? possibleNewAnoUser.ToString() : anoUserId }, statusCode: 200);
     }
 
     [HttpDelete("/cart/product/{productId}")]
     public async Task<IResult> DeleteProduct(int productId)
     {
-        var identityId = Request.Cookies["identity"];
+        var anoUserId = Request.Cookies["anoUser"];
 
-        var status = await _cartService.DeleteProduct(identityId, productId);
+        var status = await _cartService.DeleteProduct(anoUserId, productId);
 
         return Results.Json(new { status }, statusCode: 200);
     }
@@ -75,12 +75,12 @@ public class CartController : ControllerBase
     [HttpDelete("/cart")]
     public async Task<IResult> Cart()
     {
-        var identityId = Request.Cookies["identity"];
+        var anoUserId = Request.Cookies["anoUser"];
 
-        await _cartService.GetCart(identityId);
-        await _identityService.DeleteIdentity(identityId);
+        await _cartService.GetCart(anoUserId);
+        await _anoUserService.DeleteAnoUser(anoUserId);
 
-        Response.Cookies.Delete("identity");
+        Response.Cookies.Delete("anoUser");
 
         return Results.Json(new { status = true }, statusCode: 200);
     }

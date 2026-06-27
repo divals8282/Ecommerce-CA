@@ -6,7 +6,7 @@ public interface ICartRepository
 {
     public Task<CartEntity?> GetByIdAsync(int id);
 
-    public Task<CartEntity?> GetByIdentityId(int identityId);
+    public Task<CartEntity?> GetByAnoUserId(int anoUserId);
 
     public Task<bool> AddProduct(int cartId, ProductEntity product);
     public Task<bool> DeleteProduct(int cartId, ProductEntity product);

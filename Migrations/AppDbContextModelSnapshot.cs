@@ -20,7 +20,7 @@ namespace ecommerce.Migrations
                 .HasAnnotation("ProductVersion", "10.0.9")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+            SqlServerModelBuilderExtensions.UseAnoUserColumns(modelBuilder);
 
             modelBuilder.Entity("App.Domain.Entities.CartEntity", b =>
                 {
@@ -28,7 +28,7 @@ namespace ecommerce.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseAnoUserColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -44,7 +44,7 @@ namespace ecommerce.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseAnoUserColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -59,13 +59,13 @@ namespace ecommerce.Migrations
                     b.ToTable("Checkouts");
                 });
 
-            modelBuilder.Entity("App.Domain.Entities.IdentityEntity", b =>
+            modelBuilder.Entity("App.Domain.Entities.AnoUserEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseAnoUserColumn(b.Property<int>("Id"));
 
                     b.Property<int>("CartId")
                         .HasColumnType("int");
@@ -84,7 +84,7 @@ namespace ecommerce.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseAnoUserColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -104,7 +104,7 @@ namespace ecommerce.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseAnoUserColumn(b.Property<int>("Id"));
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -178,11 +178,11 @@ namespace ecommerce.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("App.Domain.Entities.IdentityEntity", b =>
+            modelBuilder.Entity("App.Domain.Entities.AnoUserEntity", b =>
                 {
                     b.HasOne("App.Domain.Entities.CartEntity", "Cart")
-                        .WithOne("Identity")
-                        .HasForeignKey("App.Domain.Entities.IdentityEntity", "CartId")
+                        .WithOne("AnoUser")
+                        .HasForeignKey("App.Domain.Entities.AnoUserEntity", "CartId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -221,7 +221,7 @@ namespace ecommerce.Migrations
 
             modelBuilder.Entity("App.Domain.Entities.CartEntity", b =>
                 {
-                    b.Navigation("Identity")
+                    b.Navigation("AnoUser")
                         .IsRequired();
                 });
 

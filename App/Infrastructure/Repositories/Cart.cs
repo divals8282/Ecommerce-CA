@@ -50,12 +50,12 @@ public class CartRepository : ICartRepository
         return true;
     }
 
-    public async Task<CartEntity?> GetByIdentityId(int identityId)
+    public async Task<CartEntity?> GetByAnoUserId(int anoUserId)
     {
         return await _db.Carts
-            .Include((c) => c.Identity)
+            .Include((c) => c.AnoUser)
             .Include((c) => c.Products)
-            .FirstOrDefaultAsync((c) => c.Identity.Id == identityId);
+            .FirstOrDefaultAsync((c) => c.AnoUser.Id == anoUserId);
     }
 
     public async Task<bool> RemoveCart(CartEntity cart)

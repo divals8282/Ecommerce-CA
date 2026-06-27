@@ -4,69 +4,67 @@ using App.Domain.Interfaces.Services;
 
 namespace App.Application.Services;
 
-public class IdentityService : IIdentityService
+public class AnoUserService : IAnoUserService
 {
-    private IIdentityRepository _identityRepo;
+    private IAnoUserRepository _anoUserRepo;
     private ICartRepository _cartRepo;
-    private IProductRepository _productRepo;
 
-    public IdentityService(IIdentityRepository identityRepo, ICartRepository cartRepo, IProductRepository productRepo)
+    public AnoUserService(IAnoUserRepository anoUserRepo, ICartRepository cartRepo)
     {
-        _identityRepo = identityRepo;
+        _anoUserRepo = anoUserRepo;
         _cartRepo = cartRepo;
-        _productRepo = productRepo;
     }
 
-    public async Task<CartEntity?> GetCart(int identityId)
+    public async Task<CartEntity?> GetCart(int anoUserId)
     {
-        var identity = await _identityRepo.GetByIdAsync(identityId);
+        var anoUser = await _anoUserRepo.GetByIdAsync(anoUserId);
 
-        if (identity == null)
+        if (anoUser == null)
         {
             return null;
         }
 
-        var cart = await _cartRepo.GetByIdAsync(identity.CartId);
+        var cart = await _cartRepo.GetByIdAsync(anoUser.CartId);
 
         return cart;
     }
 
-    public async Task<IdentityEntity> CreateIdentity(CartEntity cart)
+    public async Task<AnoUserEntity> CreateAnoUser(CartEntity cart)
     {
-        var newIdentity = new IdentityEntity()
+        var newAnoUser = new AnoUserEntity()
         {
             Cart = cart
         };
 
-        var identity = await _identityRepo.Add(newIdentity);
+        var anoUser = await _anoUserRepo.Add(newAnoUser);
 
-        await _identityRepo.SaveChangesAsync();
+        await _anoUserRepo.SaveChangesAsync();
 
-        return identity;
+        return anoUser;
     }
 
-    public async Task<bool> DeleteIdentity(string? identityId)
+    public async Task<bool> DeleteAnoUser(string? anoUserId)
     {
-        if (identityId == null)
+        if (anoUserId == null)
         {
             return false;
         }
 
-        var identity = await _identityRepo.GetByIdAsync(int.Parse(identityId));
+        var anoUser = await _anoUserRepo.GetByIdAsync(int.Parse(anoUserId));
 
-        if (identity == null)
+        if (anoUser == null)
         {
             return false;
         }
 
-        await _identityRepo.Remove(identity);
-        await _identityRepo.SaveChangesAsync();
+        await _anoUserRepo.Remove(anoUser);
+        await _anoUserRepo.SaveChangesAsync();
 
         return true;
     }
 
-    public async Task<IdentityEntity?> GetIdentityById(int identityId)
+    public async Task<AnoUserEntity?> GetAnoUserById(int anoUserId)
     {
-        return await _identityRepo.GetByIdAsync(identityId);
+        return await _anoUserRepo.GetByIdAsync(anoUserId);
     }
 }
