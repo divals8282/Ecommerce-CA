@@ -1,11 +1,12 @@
-using System.AnoUserModel.Tokens.Jwt;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using App.Application.Enums.JWT;
 using App.Domain.Entities;
 using App.Domain.Interfaces.Authentication.JWT;
 using Microsoft.Extensions.Options;
-using Microsoft.AnoUserModel.Tokens;
+using Microsoft.IdentityModel.Tokens;
+
 
 namespace App.Infrastructure.Authentication.JWT;
 
