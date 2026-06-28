@@ -6,7 +6,7 @@ public interface IUserRepository
 {
     public Task<UserEntity?> GetByIdAsync(int id);
 
-    public Task<UserEntity?> GetByFieldName(string fieldName, string value);
+    public Task<UserEntity?> GetByUserNameAsync(string userName);
 
     public Task AddAsync(UserEntity user);
 

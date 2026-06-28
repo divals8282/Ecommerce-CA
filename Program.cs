@@ -32,6 +32,8 @@ builder.Services.AddDbContext<AppDbContext>((options) =>
 builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("JWT"));
 builder.Services.Configure<AppOptions>(builder.Configuration.GetSection("APP"));
 
+
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
 {
     options.TokenValidationParameters =
@@ -70,6 +72,8 @@ builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 var app = builder.Build();
+
+app.UseExceptionHandler("/error");
 
 app.UseAuthentication();
 app.UseAuthorization();

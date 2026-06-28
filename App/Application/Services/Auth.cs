@@ -22,13 +22,11 @@ public class AuthService : IAuthService
 
     public async Task<bool> ComparePasswordAsync(UserEntity u, string cleanPassword)
     {
-        var user = await _authRepo.GetByIdAsync(u.Id);
-
-        if (user != null)
+        if (u != null)
         {
             var verificationResult = hasher.VerifyHashedPassword(
-                user,
-                user.Password,
+                u,
+                u.Password,
                 cleanPassword
             );
 

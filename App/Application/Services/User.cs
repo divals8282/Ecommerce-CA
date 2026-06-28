@@ -91,7 +91,7 @@ public class UserService : IUserService
 
     public async Task<string[]?> Login(SignInRequestDTO user)
     {
-        var u = await _userRepo.GetByFieldName("UserName", user.UserName);
+        var u = await _userRepo.GetByUserNameAsync(user.UserName);
 
         if (u == null)
         {

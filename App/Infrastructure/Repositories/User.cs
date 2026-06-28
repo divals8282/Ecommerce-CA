@@ -20,11 +20,9 @@ public class UserRepository : IUserRepository
         return await _db.Users.FindAsync(id);
     }
 
-    public async Task<UserEntity?> GetByFieldName(string fieldName, string value)
+    public async Task<UserEntity?> GetByUserNameAsync(string userName)
     {
-        var u = await _db.Users.FirstOrDefaultAsync((u) => EF.Property<string>(u, fieldName) == value);
-
-        return u;
+        return await _db.Users.FirstOrDefaultAsync(u => u.UserName == userName);
     }
 
     public async Task AddAsync(UserEntity user)
