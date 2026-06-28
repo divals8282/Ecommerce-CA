@@ -1,6 +1,4 @@
-using System.ComponentModel.DataAnnotations;
-
-namespace App.Application.DTOS.Product;
+namespace App.Application.DTOS.Checkout;
 
 public class CheckoutListResponseDTO
 {

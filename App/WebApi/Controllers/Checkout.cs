@@ -1,4 +1,4 @@
-using App.Application.DTOS.Product;
+using App.Application.DTOS.Checkout;
 using App.Domain.Enums;
 using App.Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -7,11 +7,11 @@ using Microsoft.AspNetCore.Mvc;
 namespace App.WebApi.Controllers;
 
 [ApiController]
-public class CheckoutControler : ControllerBase
+public class CheckoutController : ControllerBase
 {
     private ICheckoutService _checkoutService;
 
-    public CheckoutControler(ICheckoutService checkoutService)
+    public CheckoutController(ICheckoutService checkoutService)
     {
         _checkoutService = checkoutService;
     }
