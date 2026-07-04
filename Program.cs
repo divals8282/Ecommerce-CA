@@ -22,6 +22,7 @@ builder.Services.AddDbContext<AppDbContext>((options) =>
         builder.Configuration.GetConnectionString("DefaultConnection")
     );
 });
+
 /* 
     [ENABLE WHEN NEED DETAILED LOGS]
         builder.Logging.ClearProviders();
@@ -31,8 +32,6 @@ builder.Services.AddDbContext<AppDbContext>((options) =>
 
 builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("JWT"));
 builder.Services.Configure<AppOptions>(builder.Configuration.GetSection("APP"));
-
-
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
 {

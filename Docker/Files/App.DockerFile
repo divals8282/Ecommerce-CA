@@ -1,0 +1,16 @@
+
+
+FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS base
+WORKDIR /app
+
+ENV ASPNETCORE_URLS=http://0.0.0.0:5200
+
+FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
+WORKDIR /src
+COPY . .
+RUN dotnet publish -c Release -o /out
+
+FROM base AS final
+WORKDIR /app
+COPY --from=build /out .
+ENTRYPOINT ["dotnet", "ecommerce.dll"]

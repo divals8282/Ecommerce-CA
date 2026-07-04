@@ -1,25 +1,3 @@
-services:
-  mssql:
-    image: mcr.microsoft.com/mssql/server:2022-latest
-    container_name: ecommerce-mssql
-    restart: unless-stopped
-    environment:
-      ACCEPT_EULA: "Y"
-      MSSQL_SA_PASSWORD: "MyStrongPassword123!"
-      MSSQL_PID: "Developer"
-    ports:
-      - "1433:1433"
-    volumes:
-      - mssql_data:/var/opt/mssql
-
-  adminer:
-    image: adminer
-    container_name: ecommerce-adminer
-    restart: unless-stopped
-    ports:
-      - "8080:8080"
-    depends_on:
-      - mssql
-
-volumes:
-  mssql_data:
+include:
+  - ./Docker/compose/app-compose.yaml
+  - ./Docker/compose/database-compose.yaml

@@ -1,0 +1,14 @@
+services:
+  app:
+    build:
+      context: ../..
+      dockerfile: /Docker/Files/App.DockerFile
+    container_name: ecommerce-app
+    restart: unless-stopped
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      # - ConnectionStrings__DefaultConnection=Server=mssql;Database=EcommerceDb;User Id=sa;Password=MyStrongPassword123!;
+    ports:
+      - "5200:5200"
+    depends_on:
+      - mssql
