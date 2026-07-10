@@ -1,3 +1,6 @@
 include:
   - ./Docker/compose/app-compose.yaml
   - ./Docker/compose/database-compose.yaml
+services:
+  app:
+    image: hovhannesit/ecommerce-app
