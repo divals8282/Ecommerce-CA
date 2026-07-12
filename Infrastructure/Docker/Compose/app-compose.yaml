@@ -1,8 +1,8 @@
 services:
   app:
     build:
-      context: ../..
-      dockerfile: /Docker/Files/App.DockerFile
+      context: ../../..
+      dockerfile: ./Infrastructure/Docker/Files/App.DockerFile
     container_name: ecommerce-app
     restart: unless-stopped
     environment:
